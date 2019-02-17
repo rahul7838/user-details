@@ -1,4 +1,4 @@
-package com.example.rahul.trackingdemo.ui.home
+package com.example.rahul.trackingdemo.home
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -8,21 +8,25 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import com.example.rahul.trackingdemo.ConstantUtils
 import com.example.rahul.trackingdemo.R
 import com.example.rahul.trackingdemo.TrackingApplication
 import com.example.rahul.trackingdemo.data.model.Result
 import com.example.rahul.trackingdemo.LocationTrackingService
 import com.facebook.drawee.backends.pipeline.Fresco
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.progress_bar.*
 import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity(), HomeContract.View {
+
+    lateinit var progressbar: ProgressBar
+
+    lateinit var recyclerView: RecyclerView
 
     @Inject
     lateinit var homeContractPresenter: HomeContract.Presenter
@@ -31,19 +35,19 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     private lateinit var context: Context
 
-//    private lateinit var userListAdapter: UserListAdapter
+    private lateinit var userListAdapter: UserListAdapter
 //
     override fun showLoading() {
-//        progress_bar_id.visibility = View.VISIBLE
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-//        progress_bar_id.visibility = View.GONE
+        progressbar.visibility = View.GONE
     }
 
     override fun updateUi(list: ArrayList<Result>) {
         this.list.addAll(list)
-//        userListAdapter.prepareNewsList(list)
+        userListAdapter.prepareNewsList(list)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,15 +55,17 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         context = this
         setContentView(R.layout.activity_main)
         TrackingApplication.appComponent.inject(this)
+        progressbar = findViewById(R.id.progress_bar_id)
+        recyclerView = findViewById(R.id.user_list_recycler_view_id)
         Fresco.initialize(this)
         homeContractPresenter.attachView(this)
         homeContractPresenter.getUser()
-//        userListAdapter = UserListAdapter()
+        userListAdapter = UserListAdapter()
         displayPermission(this)
-//        user_list_recycler_view_id.apply {
-//            layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-//            adapter = userListAdapter
-//        }
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+            adapter = userListAdapter
+        }
         PreferenceManager.getDefaultSharedPreferences(this).apply {
             if (getBoolean(ConstantUtils.IS_JOB_FRIST_RUN, true)) {
                 edit().putBoolean(ConstantUtils.IS_JOB_FRIST_RUN, false).apply()

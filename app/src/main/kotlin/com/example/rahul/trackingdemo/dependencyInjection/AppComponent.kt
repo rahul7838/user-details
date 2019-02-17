@@ -1,6 +1,6 @@
 package com.example.rahul.trackingdemo.dependencyInjection
 
-import com.example.rahul.trackingdemo.ui.home.HomeActivity
+import com.example.rahul.trackingdemo.home.HomeActivity
 import dagger.Component
 
 @Component(modules = [AppModule::class])

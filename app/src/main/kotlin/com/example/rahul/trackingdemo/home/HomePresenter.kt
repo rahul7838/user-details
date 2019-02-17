@@ -1,4 +1,4 @@
-package com.example.rahul.trackingdemo.ui.home
+package com.example.rahul.trackingdemo.home
 
 import android.util.Log
 import com.example.rahul.trackingdemo.data.AppDataManager
