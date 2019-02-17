@@ -4,6 +4,8 @@ import com.example.rahul.trackingdemo.data.AppDataManager
 import com.example.rahul.trackingdemo.data.AppDataManagerImpl
 import com.example.rahul.trackingdemo.data.remote.RetrofitProvider
 import com.example.rahul.trackingdemo.data.remote.UserRetrofitApiService
+import com.example.rahul.trackingdemo.ui.home.HomeContract
+import com.example.rahul.trackingdemo.ui.home.HomePresenter
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -22,12 +24,17 @@ class AppModule {
     }
 
     @Provides
-    fun provideRetrofitProvider(retrofitProvider: RetrofitProvider) : UserRetrofitApiService {
+    fun provideUserRetrofitApiService(retrofitProvider: RetrofitProvider) : UserRetrofitApiService {
         return retrofitProvider.get().create(UserRetrofitApiService::class.java)
     }
 
     @Provides
     fun provideAppDataManager(userRetrofitApiService: UserRetrofitApiService) : AppDataManager {
         return AppDataManagerImpl(userRetrofitApiService)
+    }
+
+    @Provides
+    fun provideHomePresenter(appDataManager: AppDataManager) : HomeContract.Presenter {
+        return HomePresenter(appDataManager)
     }
 }
