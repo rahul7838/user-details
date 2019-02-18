@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_marginTop="8dp">
 
     <android.support.constraint.ConstraintLayout
 
@@ -14,8 +14,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_image"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             fresco:layout_constraintStart_toStartOf="parent"
@@ -27,59 +27,84 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="8dp"
+            android:textColor="@android:color/black"
             android:layout_toRightOf="@id/item_image"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
+            android:textSize="20sp"
             android:textStyle="bold"
             fresco:layout_constraintStart_toEndOf="@+id/item_image"
             fresco:layout_constraintTop_toTopOf="parent"
-            tools:text="asasdasdasdasd" />
+            tools:text="Rahul Singhal" />
 
         <TextView
             android:id="@+id/mobile_numer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="48dp"
             android:layout_marginTop="8dp"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
+            android:textSize="14sp"
             fresco:layout_constraintStart_toEndOf="@+id/item_image"
             fresco:layout_constraintTop_toBottomOf="@+id/title"
-            tools:text="asasdasdasdasd" />
-
-        <TextView
-            android:id="@+id/birth_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            fresco:layout_constraintStart_toEndOf="@+id/item_image"
-            fresco:layout_constraintTop_toBottomOf="@+id/email"
-            tools:text="asasdasdasdasd" />
+            tools:text="926 798 41XX" />
 
         <TextView
             android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="48dp"
             android:layout_marginTop="8dp"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
             fresco:layout_constraintStart_toEndOf="@+id/item_image"
             fresco:layout_constraintTop_toBottomOf="@+id/mobile_numer"
-            tools:text="asasdasdasdasd" />
+            tools:text="rahul.singhal@example.com" />
+
+        <TextView
+            android:id="@+id/birth_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
+            fresco:layout_constraintStart_toEndOf="@+id/item_image"
+            fresco:layout_constraintTop_toBottomOf="@+id/email"
+            tools:text="02/08/1999" />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="8dp"
+            fresco:layout_constraintBottom_toBottomOf="@+id/mobile_numer"
+            fresco:layout_constraintEnd_toStartOf="@+id/mobile_numer"
+            fresco:layout_constraintStart_toEndOf="@+id/item_image"
+            fresco:layout_constraintTop_toTopOf="@+id/mobile_numer"
+            fresco:srcCompat="@drawable/ic_call_black_24dp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="18dp"
+            fresco:layout_constraintBottom_toBottomOf="@+id/email"
+            fresco:layout_constraintEnd_toEndOf="@+id/imageView"
+            fresco:layout_constraintStart_toStartOf="@+id/imageView"
+            fresco:layout_constraintTop_toTopOf="@+id/email"
+            fresco:srcCompat="@drawable/ic_message_black_24dp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            fresco:layout_constraintBottom_toBottomOf="@+id/birth_date"
+            fresco:layout_constraintEnd_toEndOf="@+id/imageView2"
+            fresco:layout_constraintStart_toStartOf="@+id/imageView2"
+            fresco:layout_constraintTop_toBottomOf="@+id/email"
+            fresco:srcCompat="@drawable/ic_cake_black_24dp" />
 
 
     </android.support.constraint.ConstraintLayout>

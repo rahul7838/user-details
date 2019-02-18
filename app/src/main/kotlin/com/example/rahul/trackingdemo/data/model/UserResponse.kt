@@ -16,7 +16,7 @@ data class Result(
         val dob: Dob,
         val email: String,
         val name: Name,
-        val phone: String,
+        var phone: String,
         val picture: Picture
 )
 

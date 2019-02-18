@@ -31,7 +31,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     @Inject
     lateinit var homeContractPresenter: HomeContract.Presenter
 
-    var list: ArrayList<Result> = ArrayList()
+    var listArray: ArrayList<Result> = ArrayList()
 
     private lateinit var context: Context
 
@@ -46,7 +46,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     }
 
     override fun updateUi(list: ArrayList<Result>) {
-        this.list.addAll(list)
+//        this.listArray.clear()
+//        this.listArray.addAll(list)
         userListAdapter.prepareNewsList(list)
     }
 
@@ -60,7 +61,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         Fresco.initialize(this)
         homeContractPresenter.attachView(this)
         homeContractPresenter.getUser()
-        userListAdapter = UserListAdapter()
+        userListAdapter = UserListAdapter(this)
         displayPermission(this)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
@@ -104,8 +105,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         super.onOptionsItemSelected(item)
         val id = item?.itemId
         when (id) {
-            R.id.sort_by_name -> homeContractPresenter.sortByName(list)
-            R.id.sort_by_mobile -> homeContractPresenter.sortByMobile(list)
+            R.id.sort_by_name -> homeContractPresenter.sortByName()
+            R.id.sort_by_mobile -> homeContractPresenter.sortByMobile()
             R.id.sort_by_email -> homeContractPresenter.sortByEmail()
             R.id.sort_by_dob -> homeContractPresenter.sortByDOB()
         }

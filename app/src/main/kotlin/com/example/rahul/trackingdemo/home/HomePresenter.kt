@@ -13,6 +13,7 @@ class HomePresenter(val appDataManager: AppDataManager) : HomeContract.Presenter
 
     var view: HomeContract.View? = null
 
+    lateinit var listArray: ArrayList<Result>
 
     override fun attachView(view: HomeContract.View) {
         this.view = view
@@ -29,39 +30,32 @@ class HomePresenter(val appDataManager: AppDataManager) : HomeContract.Presenter
                 .doOnSubscribe { view?.showLoading() }
                 .subscribe({ response ->
                     view?.hideLoading()
+                    listArray = response.results as ArrayList<Result>
                     view?.updateUi(response.results as ArrayList<Result>)
                     Log.i(TAG, "onSuccess")
                 },
                         { Log.i(TAG, "${it.message}") })
     }
 
-    override fun sortByName(list: ArrayList<Result>) {
-        list.sortBy { it.name }
-        view?.updateUi(list)
+    override fun sortByName() {
+        listArray.sortBy { it.name }
+        view?.updateUi(listArray)
     }
 
-    override fun sortByMobile(list: ArrayList<Result>) {
-        val numberList: ArrayList<String> = ArrayList()
-        val formattedList = FormatUtility.formatNumber(numberList)
-
-//        formattedList.sortWith(object : Comparator<Int> {
-//            override fun compare(o1: Int?, o2: Int?): Int {
-//                return when {
-//                    o1!! - o2!! > 0 -> 1
-//                    o1!! - o2!! < 0 -> -1
-//                    else -> 0
-//                }
-//            }
-//        })
-//        view?.updateUi(formattedList)
+    override fun sortByMobile() {
+        val formattedList = FormatUtility.formatNumber(listArray)
+        formattedList.sortBy { it.phone }
+        view?.updateUi(formattedList)
     }
 
     override fun sortByDOB() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listArray.sortBy { it.dob.date }
+        view?.updateUi(listArray)
     }
 
     override fun sortByEmail() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listArray.sortBy { it.email }
+        view?.updateUi(listArray)
     }
 
 }

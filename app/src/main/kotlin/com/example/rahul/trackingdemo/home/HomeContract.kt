@@ -14,8 +14,8 @@ interface HomeContract {
         fun getUser()
         fun attachView(view: View)
         fun detachView()
-        fun sortByName(list: ArrayList<Result>)
-        fun sortByMobile(list: ArrayList<Result>)
+        fun sortByName()
+        fun sortByMobile()
         fun sortByDOB()
         fun sortByEmail()
     }
