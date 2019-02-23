@@ -32,6 +32,13 @@ android {
 
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-media-compat:28.0.0'
+        force 'com.android.support:support-v4:28.0.0'
+    }
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -64,4 +71,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true
     }
+}
+
+repositories {
+    google()
 }

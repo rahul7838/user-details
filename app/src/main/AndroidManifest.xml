@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.rahul.trackingdemo.ui.home.HomeActivity">
+        <activity android:name="com.example.rahul.trackingdemo.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,11 +24,10 @@
             </intent-filter>
         </activity>
         <service android:name=".LocationTrackingService" />
-        <service android:name=".UpdateLocationService" />
 
         <receiver android:name=".LocationUpdateReceiver">
             <intent-filter>
-                <action android:name="updateLocation"/>
+                <action android:name="com.example.rahul.trackingdemo.LOCATION_UPDATE"/>
             </intent-filter>
         </receiver>
         <meta-data
