@@ -6,12 +6,15 @@ import com.example.rahul.trackingdemo.data.model.Result
 import com.example.rahul.trackingdemo.ui.home.HomeContract
 import com.example.rahul.trackingdemo.utils.FormatUtility
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 
 class HomePresenter(val appDataManager: AppDataManager) : HomeContract.Presenter {
 
     private val TAG = HomePresenter::class.qualifiedName
+
+    private val compositeDisposable = CompositeDisposable()
 
     var view: HomeContract.View? = null
 
@@ -23,9 +26,11 @@ class HomePresenter(val appDataManager: AppDataManager) : HomeContract.Presenter
 
     override fun detachView() {
         view = null
+        compositeDisposable.clear()
     }
 
     override fun getUser() {
+        compositeDisposable.add(
         appDataManager.getResponse()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -36,7 +41,7 @@ class HomePresenter(val appDataManager: AppDataManager) : HomeContract.Presenter
                     view?.updateUi(response.results as ArrayList<Result>)
                     Log.i(TAG, "onSuccess")
                 },
-                        { Log.i(TAG, "${it.message}") })
+                        { Log.i(TAG, "${it.message}") }))
     }
 
     override fun sortByName() {

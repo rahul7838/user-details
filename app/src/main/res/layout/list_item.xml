@@ -81,7 +81,7 @@
             android:layout_marginEnd="8dp"
             constraint:layout_constraintBottom_toBottomOf="@+id/mobile_numer"
             constraint:layout_constraintEnd_toStartOf="@+id/mobile_numer"
-            constraint:layout_constraintStart_toStartOf="@+id/title"
+            constraint:layout_constraintStart_toEndOf="@+id/item_image"
             constraint:layout_constraintTop_toTopOf="@+id/mobile_numer"
             constraint:srcCompat="@drawable/ic_call_black_24dp" />
 
