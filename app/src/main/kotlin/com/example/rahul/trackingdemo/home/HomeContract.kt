@@ -1,4 +1,4 @@
-package com.example.rahul.trackingdemo.home
+package com.example.rahul.trackingdemo.ui.home
 
 import com.example.rahul.trackingdemo.data.model.Result
 
@@ -8,6 +8,7 @@ interface HomeContract {
         fun showLoading()
         fun hideLoading()
         fun updateUi(list: ArrayList<Result>)
+        fun handleError()
     }
 
     interface Presenter {

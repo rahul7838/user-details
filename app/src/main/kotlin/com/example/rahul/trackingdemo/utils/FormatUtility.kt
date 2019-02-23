@@ -1,6 +1,5 @@
 package com.example.rahul.trackingdemo.utils
 
-import android.telephony.PhoneNumberUtils
 import com.example.rahul.trackingdemo.data.model.Result
 
 class FormatUtility {

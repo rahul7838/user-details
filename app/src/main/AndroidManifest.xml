@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.rahul.trackingdemo.home.HomeActivity">
+        <activity android:name="com.example.rahul.trackingdemo.ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,6 +31,9 @@
                 <action android:name="updateLocation"/>
             </intent-filter>
         </receiver>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f5a1861d21d3b9ce0399ae18c0cb05e8e26c8a0f" />
     </application>
 
 </manifest>

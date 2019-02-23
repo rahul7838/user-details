@@ -1,4 +1,4 @@
-package com.example.rahul.trackingdemo.home
+package com.example.rahul.trackingdemo.ui.home
 
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
@@ -8,18 +8,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.rahul.trackingdemo.data.model.Result
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.DraweeView
 import com.facebook.imagepipeline.request.ImageRequest
 import com.facebook.drawee.generic.RoundingParams
 import android.content.Context
 import com.example.rahul.trackingdemo.R
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
-import com.facebook.drawee.interfaces.DraweeHierarchy
 
 
 class UserListAdapter(val context: Context) : RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
-
 
 
     var list: MutableList<Result> = ArrayList()
@@ -28,7 +25,7 @@ class UserListAdapter(val context: Context) : RecyclerView.Adapter<UserListAdapt
 
     fun prepareNewsList(result: List<Result>) {
         list.clear()
-        result?.let { list.addAll(it) }
+        result.let { list.addAll(it) }
         notifyDataSetChanged()
     }
 
@@ -43,9 +40,12 @@ class UserListAdapter(val context: Context) : RecyclerView.Adapter<UserListAdapt
     }
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
+
         var dob = list[position].dob.date
-        dob = dob.substring(0, 9)
+        dob = dob.substring(0, 10)
         dob = dob.replace("-", "/")
+        var reverseDOb = ""
+        reverseDOb += dob.substring(8) + "/" + dob.substring(5, 7) + "/" + dob.substring(0, 4)
 
         var firstname = list[position].name.first
         firstname = firstname[0].toUpperCase().toString() + firstname.substring(1)
@@ -63,7 +63,7 @@ class UserListAdapter(val context: Context) : RecyclerView.Adapter<UserListAdapt
         holder?.txtName?.text = name
         holder?.txtMobile?.text = number
         holder?.txtEmail?.text = list[position].email
-        holder?.txtBirthDate?.text = dob
+        holder?.txtBirthDate?.text = reverseDOb
 
         val draweeController = Fresco.newDraweeControllerBuilder()
                 .setImageRequest(ImageRequest.fromUri(Uri.parse(list[position].picture.medium)))

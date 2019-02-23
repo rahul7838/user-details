@@ -14,12 +14,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.Toast
+import com.crashlytics.android.Crashlytics
 import com.example.rahul.trackingdemo.ConstantUtils
+import com.example.rahul.trackingdemo.ConstantUtils.Companion.PERMISSION_REQUEST_CODE
+import com.example.rahul.trackingdemo.LocationTrackingService
 import com.example.rahul.trackingdemo.R
 import com.example.rahul.trackingdemo.TrackingApplication
 import com.example.rahul.trackingdemo.data.model.Result
-import com.example.rahul.trackingdemo.LocationTrackingService
+import com.example.rahul.trackingdemo.ui.home.HomeContract
+import com.example.rahul.trackingdemo.ui.home.UserListAdapter
 import com.facebook.drawee.backends.pipeline.Fresco
+import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity(), HomeContract.View {
@@ -36,7 +42,33 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     private lateinit var context: Context
 
     private lateinit var userListAdapter: UserListAdapter
-//
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        context = this
+        Fabric.with(this, Crashlytics())
+        setContentView(R.layout.activity_main)
+        TrackingApplication.appComponent.inject(this)
+        progressbar = findViewById(R.id.progress_bar_id)
+        recyclerView = findViewById(R.id.user_list_recycler_view_id)
+        Fresco.initialize(this)
+        displayPermission(this)
+
+        PreferenceManager.getDefaultSharedPreferences(this).apply {
+            if (getBoolean(ConstantUtils.IS_JOB_FRIST_RUN, true)) {
+                edit().putBoolean(ConstantUtils.IS_JOB_FRIST_RUN, false).apply()
+                LocationTrackingService.jobInfoBuilder(context)
+            }
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        homeContractPresenter.detachView()
+    }
+
     override fun showLoading() {
         progressbar.visibility = View.VISIBLE
     }
@@ -46,52 +78,44 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     }
 
     override fun updateUi(list: ArrayList<Result>) {
-//        this.listArray.clear()
-//        this.listArray.addAll(list)
         userListAdapter.prepareNewsList(list)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        context = this
-        setContentView(R.layout.activity_main)
-        TrackingApplication.appComponent.inject(this)
-        progressbar = findViewById(R.id.progress_bar_id)
-        recyclerView = findViewById(R.id.user_list_recycler_view_id)
-        Fresco.initialize(this)
+    override fun handleError() {
+        Toast.makeText(this, "Please try later", Toast.LENGTH_LONG).show()
+    }
+
+
+    private fun fetchData() {
         homeContractPresenter.attachView(this)
         homeContractPresenter.getUser()
         userListAdapter = UserListAdapter(this)
-        displayPermission(this)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             adapter = userListAdapter
-        }
-        PreferenceManager.getDefaultSharedPreferences(this).apply {
-            if (getBoolean(ConstantUtils.IS_JOB_FRIST_RUN, true)) {
-                edit().putBoolean(ConstantUtils.IS_JOB_FRIST_RUN, false).apply()
-                LocationTrackingService.jobInfoBuilder(context)
-            }
         }
     }
 
     private fun displayPermission(context: Context) {
         val permissionArray: Array<String> = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
-        if(ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, permissionArray, 1)
-        }else {
-            startLocationTrackingService()
+        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissionArray, PERMISSION_REQUEST_CODE)
+        } else {
+            fetchData()
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-    }
-
-    private fun startLocationTrackingService() {
-
+        when (requestCode) {
+            PERMISSION_REQUEST_CODE ->
+                if (grantResults.size >= 0) {
+                    fetchData()
+                } else {
+                    Toast.makeText(this, "Location tracking will not work until permission is not granted", Toast.LENGTH_LONG).show()
+                }
+        }
     }
 
 

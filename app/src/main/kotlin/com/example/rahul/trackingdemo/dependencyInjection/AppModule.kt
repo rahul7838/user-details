@@ -4,7 +4,6 @@ import com.example.rahul.trackingdemo.data.AppDataManager
 import com.example.rahul.trackingdemo.data.AppDataManagerImpl
 import com.example.rahul.trackingdemo.data.remote.RetrofitProvider
 import com.example.rahul.trackingdemo.data.remote.UserRetrofitApiService
-import com.example.rahul.trackingdemo.home.HomeContract
 import com.example.rahul.trackingdemo.home.HomePresenter
 import com.google.gson.Gson
 import dagger.Module
