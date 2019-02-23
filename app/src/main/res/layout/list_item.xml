@@ -77,11 +77,11 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             constraint:layout_constraintBottom_toBottomOf="@+id/mobile_numer"
             constraint:layout_constraintEnd_toStartOf="@+id/mobile_numer"
-            constraint:layout_constraintStart_toEndOf="@+id/item_image"
+            constraint:layout_constraintStart_toStartOf="@+id/title"
             constraint:layout_constraintTop_toTopOf="@+id/mobile_numer"
             constraint:srcCompat="@drawable/ic_call_black_24dp" />
 
