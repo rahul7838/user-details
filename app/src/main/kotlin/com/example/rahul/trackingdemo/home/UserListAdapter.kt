@@ -1,4 +1,4 @@
-package com.example.rahul.trackingdemo.ui.home
+package com.example.rahul.trackingdemo.home
 
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
@@ -13,6 +13,7 @@ import com.facebook.imagepipeline.request.ImageRequest
 import com.facebook.drawee.generic.RoundingParams
 import android.content.Context
 import com.example.rahul.trackingdemo.R
+import com.example.rahul.trackingdemo.utils.FormatUtility
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 
 
@@ -41,25 +42,9 @@ class UserListAdapter(val context: Context) : RecyclerView.Adapter<UserListAdapt
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
 
-        var dob = list[position].dob.date
-        dob = dob.substring(0, 10)
-        dob = dob.replace("-", "/")
-        var reverseDOb = ""
-        reverseDOb += dob.substring(8) + "/" + dob.substring(5, 7) + "/" + dob.substring(0, 4)
-
-        var firstname = list[position].name.first
-        firstname = firstname[0].toUpperCase().toString() + firstname.substring(1)
-        var lastName = list[position].name.last
-        lastName = lastName[0].toUpperCase().toString() + lastName.substring(1)
-        val name = "$firstname $lastName"
-
-        var number = list[position].phone
-        val re = Regex("[^0-9]")
-        number = re.replace(number, "")
-        if (number.length >= 10) {
-            number = "${number.substring(0, 3)} ${number.substring(3, 6)} ${number.substring(7, 9)}XX"
-        }
-
+        val name = FormatUtility.formatName(list[position].name)
+        val number = FormatUtility.formatPhoneNUmber(list[position].phone)
+        val reverseDOb = FormatUtility.formatDob(list[position].dob.date)
         holder?.txtName?.text = name
         holder?.txtMobile?.text = number
         holder?.txtEmail?.text = list[position].email

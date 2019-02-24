@@ -22,7 +22,6 @@ class LocationTrackingService : JobService() {
     }
 
     override fun onStartJob(job: JobParameters?): Boolean {
-
         Log.i(TAG, "onStartJob")
         val intent = Intent(this, LocationUpdateReceiver::class.java)
         intent.action = ConstantUtils.ACTION_LOCATION_UPDATES
@@ -31,6 +30,7 @@ class LocationTrackingService : JobService() {
         val minDis = 12.toFloat()
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             location.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1200, minDis, pendingIntent)
+        jobFinished(job!!, true)
         return false
     }
 
@@ -40,15 +40,18 @@ class LocationTrackingService : JobService() {
     }
 
     companion object {
-        fun jobInfoBuilder(context: Context) {
-            val firebaseJobDispatcher = FirebaseJobDispatcher(GooglePlayDriver(context))
+        fun jobInfoBuilder(firebaseJobDispatcher: FirebaseJobDispatcher): Job {
             val job = firebaseJobDispatcher.newJobBuilder()
                     .setLifetime(Lifetime.FOREVER)
+                    .setRecurring(true)
                     .setConstraints(Constraint.ON_ANY_NETWORK)
                     .setTag("LocationJob")
+                    .setTrigger(Trigger.executionWindow(120, 120*2))
+                    .setReplaceCurrent(false)
                     .setService(LocationTrackingService::class.java)
                     .build()
             firebaseJobDispatcher.schedule(job)
+            return job
         }
     }
 
