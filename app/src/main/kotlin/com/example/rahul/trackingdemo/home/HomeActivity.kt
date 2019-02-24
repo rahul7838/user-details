@@ -3,12 +3,12 @@ package com.example.rahul.trackingdemo.home
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,19 +16,20 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
-import com.example.rahul.trackingdemo.ConstantUtils
 import com.example.rahul.trackingdemo.ConstantUtils.Companion.PERMISSION_REQUEST_CODE
 import com.example.rahul.trackingdemo.LocationTrackingService
 import com.example.rahul.trackingdemo.R
 import com.example.rahul.trackingdemo.TrackingApplication
 import com.example.rahul.trackingdemo.data.model.Result
-import com.example.rahul.trackingdemo.ui.home.HomeContract
-import com.example.rahul.trackingdemo.ui.home.UserListAdapter
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.firebase.jobdispatcher.FirebaseJobDispatcher
+import com.firebase.jobdispatcher.GooglePlayDriver
 import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity(), HomeContract.View {
+
+    private val TAG = HomeActivity::class.qualifiedName
 
     lateinit var progressbar: ProgressBar
 
@@ -55,13 +56,10 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         Fresco.initialize(this)
         displayPermission(this)
 
-        PreferenceManager.getDefaultSharedPreferences(this).apply {
-            if (getBoolean(ConstantUtils.IS_JOB_FRIST_RUN, true)) {
-                edit().putBoolean(ConstantUtils.IS_JOB_FRIST_RUN, false).apply()
-                LocationTrackingService.jobInfoBuilder(context)
-            }
-        }
-
+        val firebaseJobDispatcher = FirebaseJobDispatcher(GooglePlayDriver(context))
+        val job = LocationTrackingService.jobInfoBuilder(firebaseJobDispatcher)
+        val result = firebaseJobDispatcher.schedule(job)
+        Log.i(TAG, result.toString())
     }
 
     override fun onDestroy() {
