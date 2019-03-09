@@ -1,11 +1,10 @@
 package com.example.rahul.trackingdemo.dependencyInjection
 
-import com.example.rahul.trackingdemo.data.AppDataManager
-import com.example.rahul.trackingdemo.data.AppDataManagerImpl
+import com.example.rahul.trackingdemo.data.UserDataSource
+import com.example.rahul.trackingdemo.data.UserDataSourceFactory
 import com.example.rahul.trackingdemo.data.remote.RetrofitProvider
 import com.example.rahul.trackingdemo.data.remote.UserRetrofitApiService
-import com.example.rahul.trackingdemo.home.HomePresenter
-import com.example.rahul.trackingdemo.ui.home.HomeContract
+import com.example.rahul.trackingdemo.home.HomeViewModel
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -28,13 +27,23 @@ class AppModule {
         return retrofitProvider.get().create(UserRetrofitApiService::class.java)
     }
 
+//    @Provides
+//    fun provideAppDataManager(userRetrofitApiService: UserRetrofitApiService) : UserDataSource {
+//        return UserDataSource(userRetrofitApiService)
+//    }
+
     @Provides
-    fun provideAppDataManager(userRetrofitApiService: UserRetrofitApiService) : AppDataManager {
-        return AppDataManagerImpl(userRetrofitApiService)
+    fun provideUserDataSourceFactory(userRetrofitApiService: UserRetrofitApiService) : UserDataSourceFactory {
+        return UserDataSourceFactory(userRetrofitApiService)
     }
 
     @Provides
-    fun provideHomePresenter(appDataManager: AppDataManager) : HomeContract.Presenter {
-        return HomePresenter(appDataManager)
+    fun providesHomeViewModel(userDataSourceFactory: UserDataSourceFactory) : HomeViewModel {
+        return HomeViewModel(userDataSourceFactory)
     }
+
+//    @Provides
+//    fun provideHomePresenter(appDataManager: AppDataManager) : HomeContract.Presenter {
+//        return HomePresenter(appDataManager)
+//    }
 }

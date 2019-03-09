@@ -1,31 +1,33 @@
 package com.example.rahul.trackingdemo.ui.home
 
+import android.content.Context
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.rahul.trackingdemo.R
 import com.example.rahul.trackingdemo.data.model.Result
+import com.example.rahul.trackingdemo.home.HomeActivity.Companion.diff
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
+import com.facebook.drawee.generic.RoundingParams
 import com.facebook.drawee.view.DraweeView
 import com.facebook.imagepipeline.request.ImageRequest
-import com.facebook.drawee.generic.RoundingParams
-import android.content.Context
-import com.example.rahul.trackingdemo.R
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 
 
-class UserListAdapter(val context: Context) : RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
+class UserListAdapter(val context: Context) : PagedListAdapter<Result, UserListAdapter.UserListViewHolder>(diff) {
 
 
-    var list: MutableList<Result> = ArrayList()
 
     var onItemClick: ((Result) -> Unit)? = null
 
     fun prepareNewsList(result: List<Result>) {
-        list.clear()
-        result.let { list.addAll(it) }
+//        list.clear()
+//        result.let { list.addAll(it) }
         notifyDataSetChanged()
     }
 
@@ -34,39 +36,15 @@ class UserListAdapter(val context: Context) : RecyclerView.Adapter<UserListAdapt
         return UserListViewHolder(view)
     }
 
-
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
 
-        var dob = list[position].dob.date
-        dob = dob.substring(0, 10)
-        dob = dob.replace("-", "/")
-        var reverseDOb = ""
-        reverseDOb += dob.substring(8) + "/" + dob.substring(5, 7) + "/" + dob.substring(0, 4)
-
-        var firstname = list[position].name.first
-        firstname = firstname[0].toUpperCase().toString() + firstname.substring(1)
-        var lastName = list[position].name.last
-        lastName = lastName[0].toUpperCase().toString() + lastName.substring(1)
-        val name = "$firstname $lastName"
-
-        var number = list[position].phone
-        val re = Regex("[^0-9]")
-        number = re.replace(number, "")
-        if (number.length >= 10) {
-            number = "${number.substring(0, 3)} ${number.substring(3, 6)} ${number.substring(7, 9)}XX"
-        }
-
-        holder?.txtName?.text = name
-        holder?.txtMobile?.text = number
-        holder?.txtEmail?.text = list[position].email
-        holder?.txtBirthDate?.text = reverseDOb
+        holder?.txtName?.text = getItem(position)?.name?.first
+        holder?.txtMobile?.text = getItem(position)?.phone
+        holder?.txtEmail?.text = getItem(position)?.email
+        holder?.txtBirthDate?.text = getItem(position)?.dob?.date
 
         val draweeController = Fresco.newDraweeControllerBuilder()
-                .setImageRequest(ImageRequest.fromUri(Uri.parse(list[position].picture.medium)))
+                .setImageRequest(ImageRequest.fromUri(Uri.parse(getItem(position)?.picture?.medium)))
                 .setOldController(holder?.draweeView?.controller)
                 .build()
         val roundingParams = RoundingParams()
@@ -77,6 +55,11 @@ class UserListAdapter(val context: Context) : RecyclerView.Adapter<UserListAdapt
         holder?.draweeView?.hierarchy = hierarchy.build()
     }
 
+    override fun getItemCount(): Int {
+        Log.i("UserListAdapter", super.getItemCount().toString())
+        return super.getItemCount()
+    }
+
     inner class UserListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtName: TextView? = itemView.findViewById(com.example.rahul.trackingdemo.R.id.title) as TextView?
         val txtMobile: TextView? = itemView.findViewById(R.id.mobile_numer)
@@ -85,7 +68,7 @@ class UserListAdapter(val context: Context) : RecyclerView.Adapter<UserListAdapt
         val draweeView: DraweeView<*> = itemView.findViewById(R.id.item_image) as DraweeView<*>
 
         init {
-            itemView.setOnClickListener { onItemClick?.invoke(list[adapterPosition]) }
+//            itemView.setOnClickListener { onItemClick?.invoke(list[adapterPosition]) }
         }
     }
 }

@@ -1,5 +1,47 @@
-package com.example.rahul.trackingdemo.ui.home
+temp/*
 
-import android.net.Uri
-import android.support.v7.widget.RecyclerView
-import android.view.Layout
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+*.keystore
+
+# Eclipse project files
+.classpath
+.project
+
+# Android Studio
+.idea/
+
+# Ignore gradle files
+.gradle/
+build/
+
+.gradle
+/*/local.properties
+/*/out
+/*/*/build
+/*/*/production
+/*/*/*.iml
+/*/*.iml
+*.iml
+*.iws
+*.ipr
+*~
+*.swp
+
+.DS_Store
+app/.DS_Store
+.idea

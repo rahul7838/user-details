@@ -7,12 +7,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Provider
 
 class RetrofitProvider(val gson: Gson) : Provider<Retrofit> {
-
+    // https://randomuser.me/api/?inc=name,email,dob,phone,picture&results=50
     override fun get(): Retrofit {
         return Retrofit.Builder()
                 .baseUrl("https://randomuser.me/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
+        //                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+
     }
 }

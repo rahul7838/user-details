@@ -4,17 +4,19 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.crashlytics.android.Crashlytics
 import com.example.rahul.trackingdemo.ConstantUtils
 import com.example.rahul.trackingdemo.ConstantUtils.Companion.PERMISSION_REQUEST_CODE
@@ -22,20 +24,22 @@ import com.example.rahul.trackingdemo.LocationTrackingService
 import com.example.rahul.trackingdemo.R
 import com.example.rahul.trackingdemo.TrackingApplication
 import com.example.rahul.trackingdemo.data.model.Result
-import com.example.rahul.trackingdemo.ui.home.HomeContract
 import com.example.rahul.trackingdemo.ui.home.UserListAdapter
 import com.facebook.drawee.backends.pipeline.Fresco
 import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
 
-class HomeActivity : AppCompatActivity(), HomeContract.View {
+class HomeActivity : AppCompatActivity(){
 
     lateinit var progressbar: ProgressBar
 
     lateinit var recyclerView: RecyclerView
 
     @Inject
-    lateinit var homeContractPresenter: HomeContract.Presenter
+    lateinit var homeViewModel: HomeViewModel
+
+//    @Inject
+//    lateinit var homeContractPresenter: HomeContract.Presenter
 
     var listArray: ArrayList<Result> = ArrayList()
 
@@ -43,7 +47,18 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     private lateinit var userListAdapter: UserListAdapter
 
+companion object {
+    val diff = object : DiffUtil.ItemCallback<Result>() {
+        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+            return oldItem.email == newItem.email
+        }
 
+        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+            return oldItem.phone==newItem.phone
+        }
+
+    }
+}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
@@ -53,47 +68,37 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         progressbar = findViewById(R.id.progress_bar_id)
         recyclerView = findViewById(R.id.user_list_recycler_view_id)
         Fresco.initialize(this)
-        displayPermission(this)
-
-        PreferenceManager.getDefaultSharedPreferences(this).apply {
-            if (getBoolean(ConstantUtils.IS_JOB_FRIST_RUN, true)) {
-                edit().putBoolean(ConstantUtils.IS_JOB_FRIST_RUN, false).apply()
-                LocationTrackingService.jobInfoBuilder(context)
-            }
-        }
-
+//        displayPermission(this)
+        fetchData()
+//        PreferenceManager.getDefaultSharedPreferences(this).apply {
+//            if (getBoolean(ConstantUtils.IS_JOB_FRIST_RUN, true)) {
+//                edit().putBoolean(ConstantUtils.IS_JOB_FRIST_RUN, false).apply()
+//                LocationTrackingService.jobInfoBuilder(context)
+//            }
+//        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        homeContractPresenter.detachView()
-    }
-
-    override fun showLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun updateUi(list: ArrayList<Result>) {
-        userListAdapter.prepareNewsList(list)
-    }
-
-    override fun handleError() {
-        Toast.makeText(this, "Please try later", Toast.LENGTH_LONG).show()
+//        homeContractPresenter.detachView()
     }
 
 
     private fun fetchData() {
-        homeContractPresenter.attachView(this)
-        homeContractPresenter.getUser()
+//        homeContractPresenter.attachView(this)
+//        homeContractPresenter.getUser()
         userListAdapter = UserListAdapter(this)
         recyclerView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = userListAdapter
         }
+        homeViewModel.livePagedListBuilder.observe(this, object : Observer<PagedList<Result>> {
+            override fun onChanged(t: PagedList<Result>?) {
+                userListAdapter.submitList(t)
+            }
+
+        })
+
     }
 
     private fun displayPermission(context: Context) {
@@ -129,10 +134,10 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         super.onOptionsItemSelected(item)
         val id = item?.itemId
         when (id) {
-            R.id.sort_by_name -> homeContractPresenter.sortByName()
-            R.id.sort_by_mobile -> homeContractPresenter.sortByMobile()
-            R.id.sort_by_email -> homeContractPresenter.sortByEmail()
-            R.id.sort_by_dob -> homeContractPresenter.sortByDOB()
+//            R.id.sort_by_name -> homeContractPresenter.sortByName()
+//            R.id.sort_by_mobile -> homeContractPresenter.sortByMobile()
+//            R.id.sort_by_email -> homeContractPresenter.sortByEmail()
+//            R.id.sort_by_dob -> homeContractPresenter.sortByDOB()
         }
         return true
     }
