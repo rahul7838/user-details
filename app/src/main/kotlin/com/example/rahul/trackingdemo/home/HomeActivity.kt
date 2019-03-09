@@ -21,6 +21,7 @@ import com.example.rahul.trackingdemo.LocationTrackingService
 import com.example.rahul.trackingdemo.R
 import com.example.rahul.trackingdemo.TrackingApplication
 import com.example.rahul.trackingdemo.data.model.Result
+import com.example.rahul.trackingdemo.utils.FormatUtility
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.firebase.jobdispatcher.GooglePlayDriver

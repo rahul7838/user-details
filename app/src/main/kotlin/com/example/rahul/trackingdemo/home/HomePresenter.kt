@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.rahul.trackingdemo.data.AppDataManager
 import com.example.rahul.trackingdemo.data.model.Result
 import com.example.rahul.trackingdemo.utils.FormatUtility
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -14,6 +15,7 @@ class HomePresenter(val appDataManager: AppDataManager) : HomeContract.Presenter
     private val TAG = HomePresenter::class.qualifiedName
 
     private val compositeDisposable = CompositeDisposable()
+
 
     var view: HomeContract.View? = null
 

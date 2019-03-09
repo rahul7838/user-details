@@ -5,7 +5,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
-
 //apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -26,11 +25,26 @@ android {
         }
     }
 
-        sourceSets {
-            main.java.srcDirs += 'src/main/kotlin'
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    flavorDimensions "environment"
+
+    productFlavors {
+        mock {
+            dimension 'environment'
+            applicationIdSuffix '.mock'
         }
 
+        production {
+            dimension 'environment'
+            applicationIdSuffix '.production'
+        }
+    }
 }
+
+
 
 configurations.all {
     resolutionStrategy {
@@ -57,6 +71,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    implementation "com.squareup.okhttp3:okhttp:3.13.1"
+
     //  Job schedular for api level >14
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     //    RxJava

@@ -32,7 +32,7 @@ class FormatUtility {
                 return name
         }
 
-        fun formatPhoneNUmber(number: String) : String {
+        fun formatPhoneNUmber(number: String) {
             val re = Regex("[^0-9]")
 
 //            number = re.replace(number, "")
@@ -41,7 +41,7 @@ class FormatUtility {
             if (number.length >= 10) {
                 num = "${number.substring(0, 3)} ${number.substring(3, 6)} ${number.substring(7, 9)}XX"
             }
-            return num
+//            return num
         }
     }
 }
