@@ -23,6 +23,7 @@ import com.example.rahul.trackingdemo.ConstantUtils.Companion.PERMISSION_REQUEST
 import com.example.rahul.trackingdemo.LocationTrackingService
 import com.example.rahul.trackingdemo.R
 import com.example.rahul.trackingdemo.TrackingApplication
+import com.example.rahul.trackingdemo.data.model.NetworkState
 import com.example.rahul.trackingdemo.data.model.Result
 import com.example.rahul.trackingdemo.ui.home.UserListAdapter
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -65,7 +66,7 @@ companion object {
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
         TrackingApplication.appComponent.inject(this)
-        progressbar = findViewById(R.id.progress_bar_id)
+//        progressbar = findViewById(R.id.progress_bar_id)
         recyclerView = findViewById(R.id.user_list_recycler_view_id)
         Fresco.initialize(this)
 //        displayPermission(this)
@@ -85,8 +86,6 @@ companion object {
 
 
     private fun fetchData() {
-//        homeContractPresenter.attachView(this)
-//        homeContractPresenter.getUser()
         userListAdapter = UserListAdapter(this)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -96,9 +95,12 @@ companion object {
             override fun onChanged(t: PagedList<Result>?) {
                 userListAdapter.submitList(t)
             }
-
         })
+        homeViewModel.liveNetworkState.observe(this,
+                Observer<NetworkState> {networkState -> userListAdapter.setNetwork(networkState)})
 
+        homeViewModel.initialFetch.observe(this,
+                Observer<NetworkState> {networkState -> userListAdapter.setNetwork(networkState)})
     }
 
     private fun displayPermission(context: Context) {

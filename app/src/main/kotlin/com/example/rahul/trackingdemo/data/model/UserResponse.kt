@@ -2,7 +2,6 @@ package com.example.rahul.trackingdemo.data.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.recyclerview.widget.DiffUtil
 
 data class UserResponse(
         val info: Info,

@@ -8,10 +8,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/user_list_recycler_view_id"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <include
-        layout="@layout/progress_bar"/>
-
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
 
 </RelativeLayout>
