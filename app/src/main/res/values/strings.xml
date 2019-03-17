@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">TrackingDemo</string>
+
+    <!--drawer String-->
+    <string name="open" translatable="false">Open Drawer</string>
+    <string name="close" tools:ignore="MissingTranslation">Close Drawer</string>
+    <string name="setting" tools:ignore="MissingTranslation">Setting</string>
+</resources>
+

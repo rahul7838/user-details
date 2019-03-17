@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<declare-styleable name="Piechart">-->
+        <!--<attr name="showText" format="string"/>-->
+    <!--</declare-styleable>-->
+</resources>
+
+
+<!--declare styleable is used to set the component input type from the xml layout-->
