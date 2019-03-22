@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference android:enabled="true"
+        android:title="General"
+        android:selectable="true"
+        android:key="general"
+        android:summary="summary of the title"/>
+
+    <SwitchPreference
+        android:title="Notification"
+        android:key="notificationKey"
+        android:summary="turn On or Off Notifiaction"/>
+
+</PreferenceScreen>

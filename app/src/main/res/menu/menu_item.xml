@@ -4,18 +4,23 @@
 
     <item
         android:title="Sort By Name"
-        android:id="@+id/sort_by_name"/>
+        android:id="@+id/sort_by_name"
+        android:orderInCategory="100"/>
 
     <item
         android:title="Sort By Mobile"
-        android:id="@+id/sort_by_mobile"/>
+        android:id="@+id/sort_by_mobile"
+        android:orderInCategory="10"/>
 
     <item
         android:title="Sort By Email"
-        android:id="@+id/sort_by_email"/>
+        android:id="@+id/sort_by_email"
+        android:orderInCategory="50"/>
 
     <item
         android:title="Sort By DOB"
-        android:id="@+id/sort_by_dob"/>
+        android:id="@+id/sort_by_dob"
+        android:orderInCategory="60"/>
+
 
 </menu>

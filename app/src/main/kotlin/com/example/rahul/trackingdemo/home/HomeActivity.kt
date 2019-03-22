@@ -1,10 +1,10 @@
 package com.example.rahul.trackingdemo.home
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -30,6 +30,7 @@ import com.example.rahul.trackingdemo.R
 import com.example.rahul.trackingdemo.TrackingApplication
 import com.example.rahul.trackingdemo.data.model.NetworkState
 import com.example.rahul.trackingdemo.data.model.Result
+import com.example.rahul.trackingdemo.setting.SettingActivity
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -182,7 +183,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     item.isChecked = true
     val id = item.itemId
     when(id) {
-      R.id.setting -> Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show()
+      R.id.setting -> {
+        val intent = Intent(this, SettingActivity::class.java)
+        startActivity(intent)
+      }
     }
     drawerLayout.closeDrawer(GravityCompat.START)
     return true
@@ -203,6 +207,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //            R.id.sort_by_mobile -> homeContractPresenter.sortByMobile()
 //            R.id.sort_by_email -> homeContractPresenter.sortByEmail()
 //            R.id.sort_by_dob -> homeContractPresenter.sortByDOB()
+
              android.R.id.home -> drawerLayout.openDrawer(GravityCompat.START)
     }
     return true

@@ -52,6 +52,12 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     //    implementation 'com.android.support:design:28.0.0'below find the androidX mapping artifact
     implementation 'com.google.android.material:material:1.1.0-alpha04'
+    // https://mvnrepository.com/artifact/androidx.preference/preference
+    implementation group: 'androidx.preference', name: 'preference', version: '1.1.0-alpha04'
+    // https://mvnrepository.com/artifact/androidx.room/room-runtime
+    compile group: 'androidx.room', name: 'room-runtime', version: '2.1.0-alpha05'
+
+
 
 //    paging
 // https://mvnrepository.com/artifact/androidx.paging/paging-common-ktx
@@ -92,6 +98,8 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true
     }
+
+
 // https://mvnrepository.com/artifact/androidx.multidex/multidex
 //    compile group: 'androidx.multidex', name: 'multidex', version: '2.0.1'
 
